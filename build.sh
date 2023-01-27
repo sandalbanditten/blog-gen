@@ -1,7 +1,7 @@
-#!/bin/zsh
+#!/bin/env bash
+# should be invoked `. ./build.sh <arg>`
 if [[ "$#" -ne 1 ]]; then
     echo "Please supply an argument"
-    exit 1
 fi
 
 if [[ "$1" == "r" ]]; then
