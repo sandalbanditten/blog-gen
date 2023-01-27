@@ -11,6 +11,12 @@ newtype Structure
 type Title
   = String
 
+-- Typeclasses
+
+instance Semigroup Structure where
+  (<>) a b =
+    Structure $ toString a <> toString b
+
 -- EDSL
 
 p_ :: String -> Structure
@@ -23,19 +29,15 @@ h1_ :: String -> Structure
 h1_ = Structure . el "h1" . escape
 
 ul_ :: [Structure] -> Structure
-ul_ = Structure . el "ul" . concat . map ( el "li" . toString)
+ul_ = Structure . el "ul" . concatMap ( el "li" . toString)
 
 ol_ :: [Structure] -> Structure
-ol_ = Structure . el "ol" . concat . map ( el "li" . toString)
+ol_ = Structure . el "ol" . concatMap ( el "li" . toString)
 
 html_ :: Title -> Structure -> Html
 html_ t c = Html
           $ el "html"
-          $ (el "head" $ el "title" t) <> (el "body" $ toString c)
-
-append_ :: Structure -> Structure -> Structure
-append_ (Structure a) (Structure b)
-  = Structure (a <> b)
+          $ el "head" (el "title" t) <> el "body" (toString c)
 
 -- Render
 
@@ -51,7 +53,7 @@ el :: String -> String -> String
 el tag content = "<" <> tag <> ">" <> content <> "</" <> tag <> ">"
 
 escape :: String -> String
-escape = concat . map escapeChar
+escape = concatMap escapeChar
 
 escapeChar :: Char -> String
 escapeChar c = case c of
