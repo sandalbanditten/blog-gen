@@ -4,7 +4,7 @@ module Html
   , Structure
   , html_
   , p_
-  , h1
+  , h1_
   , append_
   , render
   )
