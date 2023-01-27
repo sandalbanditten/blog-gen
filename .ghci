@@ -1,2 +1,2 @@
-:set -Weverything
+:set -Wall
 :load Main
