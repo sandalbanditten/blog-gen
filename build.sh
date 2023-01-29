@@ -1,20 +1,27 @@
 #!/bin/env bash
-# should be invoked `. ./build.sh <arg>`
+cd src
+
 if [[ "$#" -ne 1 ]]; then
     echo "Please supply an argument"
 fi
 
 if [[ "$1" == "r" ]]; then
-    ghc -Wall Main.hs
+    ghc -dynamic -Wall Main.hs || exit 1
     echo "Running Main ..."
+    mv Main ..
+    cd ..
     ./Main
+    exit 0
 fi
 if [[ "$1" == "b" ]]; then
-    ghc -Wall Main.hs
+    ghc -dynamic -Wall Main.hs || exit 1
+    mv Main ..
+    exit 0
 fi
 if [[ "$1" == "c" ]]; then
     echo "Cleaning up ..."
     rm $(fd -Ip ".*\.hi") -f
     rm $(fd -Ip ".*\.o") -f
-    rm "Main" -f
+    rm ../Main -f
+    exit 0
 fi
