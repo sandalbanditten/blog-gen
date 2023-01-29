@@ -1,12 +1,14 @@
 module Markup
   ( Document 
   , Structure(..) -- also export constructors for the type
+  , parse
   )
   where
 
 -- Imports
 
 import Numeric.Natural
+import Data.Maybe (maybeToList)
 
 -- Types
 
@@ -19,26 +21,61 @@ data Structure
   | UnorderedList [String]
   | OrderedList [String]
   | CodeBlock [String]
-  deriving Show
+  deriving (Eq, Show)
 
 -- Functions
 
 parse :: String -> Document
 parse = parseLines Nothing . lines
 
-parseLines :: [String] -> [String] -> Document
-parseLines curPar txts =
-  let
-    paragraph = Paragraph $ unlines $ reverse curPar
-  in
-    case txts of
-      [] -> [paragraph]
-      curLine:rest ->
-        if trim curLine == ""
+parseLines :: Maybe Structure -> [String] -> Document
+parseLines ctx txts =
+  case txts of
+    -- Done case
+    [] -> maybeToList ctx
+
+    -- H1 case
+    ('*' : ' ' : ln) : rest ->
+      maybe id (:) ctx (Heading 1 (trim ln) : parseLines Nothing rest)
+
+    -- Unordered list case
+    ('-' : ' ' : ln) : rest ->
+      case ctx of
+        Just (UnorderedList list) ->
+          parseLines (Just (UnorderedList (list <> [trim ln]))) rest
+        _ ->
+          maybe id (:) ctx (parseLines (Just (UnorderedList [trim ln])) rest)
+
+    -- Ordered list case
+    ('#' : ' ' : ln) : rest ->
+      case ctx of
+        Just (OrderedList list) ->
+          parseLines (Just (OrderedList (list <> [trim ln]))) rest
+        _ ->
+          maybe id (:) ctx (parseLines (Just (OrderedList [trim ln])) rest)
+
+    -- Code block case
+    ('>' : ' ' : ln) : rest ->
+      case ctx of
+        Just (CodeBlock code) ->
+          parseLines (Just (CodeBlock (code <> [ln]))) rest
+        _ ->
+          maybe id (:) ctx (parseLines (Just (CodeBlock [ln])) rest)
+
+    -- Paragraph case
+    curLn:rest ->
+      let
+        ln = trim curLn
+      in
+        if ln == ""
           then
-            paragraph:parseLines [] rest
+            maybe id (:) ctx (parseLines Nothing rest)
           else
-            parseLines (curLine:curPar) rest
+            case ctx of
+              Just (Paragraph paragraph) ->
+                parseLines (Just (Paragraph (unwords [paragraph, ln]))) rest
+              _ ->
+                maybe id (:) ctx (parseLines (Just (Paragraph ln)) rest)
 
 trim :: String -> String
 trim = unwords . words
