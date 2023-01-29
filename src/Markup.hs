@@ -24,10 +24,10 @@ data Structure
 -- Functions
 
 parse :: String -> Document
-parse = parseLines [] . lines
+parse = parseLines Nothing . lines
 
 parseLines :: [String] -> [String] -> Document
-peraselines curPar txts =
+parseLines curPar txts =
   let
     paragraph = Paragraph $ unlines $ reverse curPar
   in
