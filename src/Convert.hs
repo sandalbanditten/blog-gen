@@ -3,6 +3,8 @@ module Convert where
 import qualified Markup as MU
 import qualified Html as HTML
 
+-- Glue code for converting a markup document into an html document
+
 convert :: HTML.Title -> MU.Document -> HTML.Html
 convert title = HTML.html_ title . foldMap convertStructure
 
