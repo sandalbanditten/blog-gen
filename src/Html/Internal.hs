@@ -1,5 +1,9 @@
 module Html.Internal where
 
+-- Imports
+
+import Numeric.Natural
+
 -- Types
 
 newtype Html
@@ -17,6 +21,9 @@ instance Semigroup Structure where
   (<>) a b =
     Structure $ toString a <> toString b
 
+instance Monoid Structure where
+  mempty = Structure ""
+
 -- EDSL
 
 p_ :: String -> Structure
@@ -25,8 +32,8 @@ p_ = Structure . el "p" . escape
 code_ :: String -> Structure
 code_ = Structure . el "pre" . escape
 
-h1_ :: String -> Structure
-h1_ = Structure . el "h1" . escape
+h_ :: Natural -> String -> Structure
+h_ n = Structure . el ("h" <> show n) . escape
 
 ul_ :: [Structure] -> Structure
 ul_ = Structure . el "ul" . concatMap ( el "li" . toString)

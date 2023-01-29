@@ -3,7 +3,7 @@ module Html
   , Title
   , Structure
   , html_
-  , h1_
+  , h_
   , p_
   , ul_
   , ol_
