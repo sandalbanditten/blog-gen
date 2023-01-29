@@ -5,8 +5,10 @@ if [[ "$#" -ne 1 ]]; then
     echo "Please supply an argument"
 fi
 
+# TODO: Create "build" function
+
 if [[ "$1" == "r" ]]; then
-    ghc -dynamic -Wall Main.hs || exit 1
+    ghc -dynamic -Wall -XLambdaCase Main.hs || exit 1
     echo "Running Main ..."
     mv Main ..
     cd ..
@@ -14,7 +16,7 @@ if [[ "$1" == "r" ]]; then
     exit 0
 fi
 if [[ "$1" == "b" ]]; then
-    ghc -dynamic -Wall Main.hs || exit 1
+    ghc -dynamic -Wall -XLambdaCase Main.hs || exit 1
     mv Main ..
     exit 0
 fi
