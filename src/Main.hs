@@ -1,11 +1,11 @@
 module Main where
 
-import Html
-import Markup
-import Convert (convert)
+import           Convert            (convert)
+import           Html
+import           Markup
 
-import System.Directory (doesFileExist)
-import System.Environment (getArgs)
+import           System.Directory   (doesFileExist)
+import           System.Environment (getArgs)
 
 process :: Title -> String -> String
 process title = Html.render . convert title . Markup.parse

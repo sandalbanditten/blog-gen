@@ -1,5 +1,5 @@
 module Markup
-  ( Document 
+  ( Document
   , Structure(..) -- also export constructors for the type
   , parse
   )
@@ -7,8 +7,8 @@ module Markup
 
 -- Imports
 
-import Numeric.Natural
-import Data.Maybe (maybeToList)
+import           Data.Maybe      (maybeToList)
+import           Numeric.Natural
 
 -- Types
 

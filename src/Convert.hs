@@ -1,7 +1,7 @@
 module Convert where
 
+import qualified Html   as HTML
 import qualified Markup as MU
-import qualified Html as HTML
 
 -- Glue code for converting a markup document into an html document
 

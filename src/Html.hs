@@ -12,4 +12,4 @@ module Html
   )
   where
 
-import Html.Internal
+import           Html.Internal
