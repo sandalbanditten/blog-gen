@@ -23,6 +23,8 @@ extra-doc-files:
 
 common common-settings
   default-language: Haskell2010
+  default-extensions:
+    LambdaCase
   ghc-options:
     -Wall
 
@@ -33,9 +35,19 @@ library
       base
     , directory
   exposed-modules:
-    HsBlog
-      HsBlog.Convert
-      HsBlog.Html
-        HsBlog.Html.Internal
-      HsBlog.Markup
+    BlogGen
+      BlogGen.Convert
+      BlogGen.Html
+        BlogGen.Html.Internal
+      BlogGen.Markup
 	  -- other modules
+
+executable blog-gen
+  import: common-settings
+  hs-source-dirs: app
+  main-is: Main.hs
+  build-depends:
+      base
+    , blog-gen
+  ghc-options:
+    -O
