@@ -5,14 +5,14 @@ module BlogGen
   where
 
 import           BlogGen.Convert     (convert)
-import qualified BlogGen.Html        as HTML
-import qualified BlogGen.Markup      as Markup
+import           BlogGen.Html        (Title, render)
+import           BlogGen.Markup      (parse)
 
 import           System.Directory   (doesFileExist)
 import           System.Environment (getArgs)
 
-process :: HTML.Title -> String -> String
-process title = HTML.render . convert title . Markup.parse
+process :: Title -> String -> String
+process title = render . convert title . parse
 
 confirm :: IO Bool
 confirm =
