@@ -4,9 +4,9 @@ module HsBlog
   )
   where
 
-import qualified HsBlog.Markup as Markup
-import qualified HsBlog.Html as Html
-import HsBlog.Convert (convert)
+import           HsBlog.Convert     (convert)
+import qualified HsBlog.Html        as Html
+import qualified HsBlog.Markup      as Markup
 
 import           Convert            (convert)
 import           Html
