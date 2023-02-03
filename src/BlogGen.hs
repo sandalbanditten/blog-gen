@@ -1,22 +1,18 @@
-module HsBlog
+module BlogGen
   ( main
   , process
   )
   where
 
-import           HsBlog.Convert     (convert)
-import qualified HsBlog.Html        as Html
-import qualified HsBlog.Markup      as Markup
-
-import           Convert            (convert)
-import           Html
-import           Markup
+import           BlogGen.Convert     (convert)
+import qualified BlogGen.Html        as HTML
+import qualified BlogGen.Markup      as Markup
 
 import           System.Directory   (doesFileExist)
 import           System.Environment (getArgs)
 
-process :: Title -> String -> String
-process title = Html.render . convert title . Markup.parse
+process :: HTML.Title -> String -> String
+process title = HTML.render . convert title . Markup.parse
 
 confirm :: IO Bool
 confirm =
