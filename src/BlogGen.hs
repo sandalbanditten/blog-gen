@@ -1,4 +1,12 @@
-module Main where
+module HsBlog
+  ( main
+  , process
+  )
+  where
+
+import qualified HsBlog.Markup as Markup
+import qualified HsBlog.Html as Html
+import HsBlog.Convert (convert)
 
 import           Convert            (convert)
 import           Html
@@ -19,10 +27,9 @@ confirm =
 
 whenIO :: IO Bool -> IO () -> IO ()
 whenIO cond action =
-  cond >>= \result ->
-    if result
-      then action
-      else pure ()
+  cond >>= \case
+    True  -> action
+    False -> pure ()
 
 main :: IO ()
 main = getArgs >>= \case -- get args

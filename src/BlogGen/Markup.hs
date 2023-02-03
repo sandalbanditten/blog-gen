@@ -1,4 +1,4 @@
-module Markup
+module BlogGen.Markup
   ( Document
   , Structure(..) -- also export constructors for the type
   , parse

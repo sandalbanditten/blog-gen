@@ -1,7 +1,7 @@
-module Convert where
+module BlogGen.Convert where
 
-import qualified Html   as HTML
-import qualified Markup as MU
+import qualified BlogGen.Markup as MU
+import qualified BlogGen.Html   as HTML
 
 -- Glue code for converting a markup document into an html document
 

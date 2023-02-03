@@ -1,8 +1,8 @@
-module Html.Internal where
+module BlogGen.Html.Internal where
 
 -- Imports
 
-import Numeric.Natural
+import           Numeric.Natural
 
 -- Types
 

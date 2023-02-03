@@ -1,4 +1,4 @@
-module Html
+module BlogGen.Html
   ( Html
   , Title
   , Structure
@@ -12,4 +12,4 @@ module Html
   )
   where
 
-import           Html.Internal
+import           BlogGen.Html.Internal
