@@ -1,18 +1,15 @@
 module BlogGen
-  ( main
+  ( convertSingle
+  , convertDirectory
   , process
   )
   where
 
-import           BlogGen.Convert     (convert)
-import           BlogGen.Html        (Title, render)
-import           BlogGen.Markup      (parse)
+import           BlogGen.Convert (convert)
+import           BlogGen.Html    (Title, render)
+import           BlogGen.Markup  (parse)
 
-import           System.Directory   (doesFileExist)
-import           System.Environment (getArgs)
-
-process :: Title -> String -> String
-process title = render . convert title . parse
+import           System.IO
 
 confirm :: IO Bool
 confirm =
@@ -27,22 +24,13 @@ whenIO cond action =
     True  -> action
     False -> pure ()
 
-main :: IO ()
-main = getArgs >>= \case -- get args
-  -- No arguments; read from stdin and write to stdout
-  [] -> do
-    content <- getContents
-    putStrLn (process "Empty title" content)
+convertSingle :: Title -> Handle -> Handle -> IO ()
+convertSingle title input output = do
+  content <- hGetContents input
+  hPutStrLn output (process title content)
 
-  -- With input and output file as arguments
-  [input, output] -> do
-    content <- readFile input
-    exists  <- doesFileExist output
-    let
-      writeResult = writeFile output (process input content)
-    if exists
-      then whenIO confirm writeResult
-      else writeResult
+convertDirectory :: FilePath -> FilePath -> IO ()
+convertDirectory = error "Not yet implemented"
 
-  -- Default to printing an error message
-  _ -> putStrLn "Usage: Main [-- <input-file> <output-file>]"
+process :: Title -> String -> String
+process title = render . convert title . parse
