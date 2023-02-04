@@ -1,23 +1,23 @@
 module BlogGen.Convert where
 
-import qualified BlogGen.Html   as HTML
+import qualified BlogGen.Html   as Html
 import qualified BlogGen.Markup as MU
 
 -- Glue code for converting a markup document into an html document
 
-convert :: HTML.Title -> MU.Document -> HTML.Html
-convert title = HTML.html_ title . foldMap convertStructure
+convert :: Html.Title -> MU.Document -> Html.Html
+convert title = Html.html_ title . foldMap convertStructure
 
-convertStructure :: MU.Structure -> HTML.Structure
+convertStructure :: MU.Structure -> Html.Structure
 convertStructure struct =
   case struct of
     MU.Heading n txt ->
-      HTML.h_ n txt
+      Html.h_ n $ Html.txt_ txt
     MU.Paragraph p ->
-      HTML.p_ p
+      Html.p_ $ Html.txt_ p
     MU.UnorderedList list ->
-      HTML.ul_ $ map HTML.p_ list
+      Html.ul_ $ map (Html.p_ . Html.txt_) list
     MU.OrderedList list ->
-      HTML.ol_ $ map HTML.p_ list
+      Html.ol_ $ map (Html.p_ . Html.txt_) list
     MU.CodeBlock list ->
-      HTML.code_ (unlines list)
+      Html.code_ (unlines list)
