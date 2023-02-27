@@ -1,6 +1,6 @@
 module Main where
 
-import qualified BlogGen
+import           BlogGen
 import           OptParse
 
 import           System.Directory (doesFileExist)
@@ -13,9 +13,12 @@ main :: IO ()
 main = do
   options <- parse
   case options of
+    -- Convert a whole directory
     ConvertDir input output ->
-      BlogGen.convertDirectory input output
+      convertDirectory input output
 
+    -- Convert a single input, defaulting to using stdin and stdout
+    -- Will ask to override files and exit with failure if not
     ConvertSingle input output -> do
       (title, inputHandle) <-
         case input of
@@ -39,16 +42,17 @@ main = do
               else
                 exitFailure
 
-      BlogGen.convertSingle title inputHandle outputHandle
+      convertSingle title inputHandle outputHandle
       hClose inputHandle
       hClose outputHandle
+
+test = lk $ and <* l <*> l *>
 
 -- * Utilities
 
 -- Confirms a user action
 confirm :: IO Bool
-confirm =
-  putStrLn "Are you sure? (y/N)" *>
-    getLine >>= \case
-      "y" -> pure True
-      _   -> pure False
+confirm = putStr "Are you sure? (y/N) " >>
+  getLine >>= \case
+    "y" -> pure True
+    _   -> pure False

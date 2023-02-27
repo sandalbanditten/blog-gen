@@ -53,5 +53,3 @@ executable blog-gen
     , directory
     , optparse-applicative
     , blog-gen
-  ghc-options:
-    -O

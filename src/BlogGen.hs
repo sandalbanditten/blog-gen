@@ -6,8 +6,9 @@ module BlogGen
   where
 
 import           BlogGen.Convert (convert, convertStructure)
-import           BlogGen.Html    (Html, Title, render, h_, html_, p_, txt_, link_)
-import           BlogGen.Markup  (Document, Structure(..), parse)
+import           BlogGen.Html    (Html, Title, h_, html_, link_, p_, render,
+                                  txt_)
+import           BlogGen.Markup  (Document, Structure (..), parse)
 
 import           System.IO
 

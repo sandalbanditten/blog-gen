@@ -64,18 +64,16 @@ parseLines ctx txts =
 
     -- Paragraph case
     curLn:rest ->
-      let
-        ln = trim curLn
-      in
-        if ln == ""
-          then
-            maybe id (:) ctx (parseLines Nothing rest)
-          else
-            case ctx of
-              Just (Paragraph paragraph) ->
-                parseLines (Just (Paragraph (unwords [paragraph, ln]))) rest
-              _ ->
-                maybe id (:) ctx (parseLines (Just (Paragraph ln)) rest)
+      if ln == ""
+        then
+          maybe id (:) ctx (parseLines Nothing rest)
+        else
+          case ctx of
+            Just (Paragraph paragraph) ->
+              parseLines (Just (Paragraph (unwords [paragraph, ln]))) rest
+            _ ->
+              maybe id (:) ctx (parseLines (Just (Paragraph ln)) rest)
+      where ln = trim curLn
 
 trim :: String -> String
 trim = unwords . words
