@@ -46,8 +46,6 @@ main = do
       hClose inputHandle
       hClose outputHandle
 
-test = lk $ and <* l <*> l *>
-
 -- * Utilities
 
 -- Confirms a user action
